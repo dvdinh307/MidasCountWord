@@ -8,34 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 
 import exam.midas.countword.model.WordObject;
+import exam.midas.countword.utils.AppUtils;
 import exam.midas.countword.view.WordAdapter;
-
-
-//Viết một chương trình đọc 1 file text, rồi tính số lần xuất hiện của từng từ trong file đó, kèm theo các dòng mà từ đó xuất hiện:
-//        Ví dụ: input file "word.in" có nội dung:
-//        Python is a cool language but OCaml
-//        is even cooler since it is purely functional
-//        thì in ra màn hình kết quả:
-//        3 is 1 2
-//        1 a 1
-//        1 but 1
-//        1 cool 1
-//        1 cooler 2
-//        1 even 2
-//        1 functional 2
-//        1 it 2
-//        1 language 1
-//        1 ocaml 1
-//        1 purely 2
-//        1 python 1
-//        1 since 2
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRcyContent;
-    private String mStringTest = "Python is a cool language but OCaml\n" +
-            " is even cooler since it is purely Python functionalPython is a cool language but OCaml\n" +
-            " is even cooler since it is purely Python functionalPython is a cool language but OCaml\n" +
-            " is even cooler since it is purely Python functional";
     private ArrayList<WordObject> mListWords;
 
     @Override
@@ -45,12 +22,14 @@ public class MainActivity extends AppCompatActivity {
         mRcyContent = findViewById(R.id.rcy_content);
         mListWords = new ArrayList<>();
         mRcyContent.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        getDataFromString();
+        String valuesTest = AppUtils.getDataFromFile("exam.txt", MainActivity.this);
+        if (valuesTest.length() > 0)
+            getDataFromString(valuesTest);
     }
 
-    private void getDataFromString() {
+    private void getDataFromString(String data) {
         // Get array line.
-        String[] splitLine = mStringTest.split("[\n|\r]");
+        String[] splitLine = data.split("[\n|\r]");
         for (int i = 0; i < splitLine.length; i++) {
             // Get array word.
             String[] datas = splitLine[i].trim().split(" ");
